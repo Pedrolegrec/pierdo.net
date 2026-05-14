@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PierDo — small Android apps</title>
+  <meta name="description" content="Small Android apps by Pierre-Dominic Simard. Currently: Digit Span, Dial-In.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Inter+Tight:wght@400;500&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon.png">
+</head>
+<body>
+  <main>
+    <header class="wordmark">
+      <svg class="ring" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="28" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <text x="32" y="42" text-anchor="middle" class="seven">7</text>
+      </svg>
+      <span class="brand">PierDo</span>
+    </header>
+
+    <section class="story">
+      <p>I'm Pierre-Dominic Simard. I make small Android apps — one at a time, on their own timeline. Two are live: <a href="#digit-span">Digit Span</a> (working memory training) and <a href="#dial-in">Dial-In</a> (espresso dialing). I write up shipped work and post-mortems here, monthly.</p>
+    </section>
+
+    <section class="apps">
+      <article id="digit-span" class="app-card">
+        <img src="digit-span-icon.png" alt="" class="icon">
+        <div class="meta">
+          <h3>Digit Span</h3>
+          <p>Working memory training. Forward, backward, and sequencing drills with personalized session reviews.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.digitspantrainer" rel="noopener">Google Play →</a>
+        </div>
+      </article>
+
+      <article id="dial-in" class="app-card">
+        <img src="dial-in-icon.png" alt="" class="icon">
+        <div class="meta">
+          <h3>Dial-In</h3>
+          <p>Espresso dialing companion. Log shots, track beans, find the recipe that hits.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.dialin" rel="noopener">Google Play →</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="newsletter">
+      <h2>Newsletter</h2>
+      <p>Monthly notes on shipped work. First post coming Week 2.</p>
+      <div id="substack-embed"></div>
+    </section>
+
+    <footer>
+      <a href="https://x.com/PierDoio" rel="noopener">@PierDoio</a>
+    </footer>
+  </main>
+</body>
+</html>

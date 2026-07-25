@@ -1,6 +1,7 @@
 # PierDo Website Instructions
 
-These instructions apply to the whole `/app/dev/pierdo.net` repository.
+These instructions apply to the whole
+`/app/dev/public-presence/pierdo.net` repository.
 
 ## Role
 
@@ -29,8 +30,8 @@ app icons, the landing page, styling, and the Kinetic Atlas privacy page.
 Before reporting changes complete, run:
 
 ```bash
-git -C /app/dev/pierdo.net diff --check
-git -C /app/dev/pierdo.net status --short
+git -C /app/dev/public-presence/pierdo.net diff --check
+git -C /app/dev/public-presence/pierdo.net status --short
 ```
 
 For visual changes, also preview the static site in a browser or a local

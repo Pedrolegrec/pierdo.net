@@ -50,37 +50,77 @@
   <body>
     <main>
       <h1>Kinetic Atlas Privacy Policy</h1>
-      <p class="meta">Effective date: 2026-05-25</p>
-      <p>Kinetic Atlas is published by PierDo. This policy describes the current build.</p>
+      <p class="meta">Effective date: 2026-08-08</p>
+      <p>Kinetic Atlas is published by PierDo. This policy describes the Kinetic Atlas 0.2.0 production release candidate.</p>
 
-      <h2>Data Stored On Your Device</h2>
-      <p>Kinetic Atlas stores training state on your device, including baseline progress, current atlas rung, completed session summaries, free CV session count, and local entitlement state. This data is used to show your guided next session and progress feedback.</p>
-      <p>You can delete this local data by clearing app storage in Android settings or by uninstalling the app.</p>
+      <h2>Core App And Data Stored On Your Device</h2>
+      <p>The core app works without an account. Kinetic Atlas stores training state on your device, including baseline progress, current Atlas rung, completed session summaries, free camera-session usage, Coach preferences and plans, a pending cloud-selection outbox, and local entitlement state. A pending outbox can include a pseudonymous account binding. It is retained when cloud Coach is turned off or Coach is signed out so the same account can safely recover a possibly completed request without another quota debit. It is removed after the request is resolved, successful cloud-state deletion, account mismatch, or local app-data deletion. This data is used to show your guided next session, offline Coach card, and progress feedback.</p>
+      <p>Everyone can use the deterministic, on-device Atlas Coach without a subscription, account, or internet connection. The local Coach does not call an AI service.</p>
+      <p>Kinetic Atlas disables Android cloud backup and excludes its app data from device-transfer backup. You can delete local training and Coach data by clearing app storage in Android settings or by uninstalling the app.</p>
 
-      <h2>Camera Use</h2>
-      <p>Kinetic Atlas uses your device camera for local pose detection, rep counting, and form feedback during training sessions. Camera frames are processed on your device. The current build does not upload, record, or store camera video or images.</p>
-      <p>Camera access is optional for the rest of the app. If camera permission is blocked, simulated verification controls remain available in the current build.</p>
+      <h2>Camera, Tracking, And Audio</h2>
+      <p>Kinetic Atlas uses your device camera for local pose detection, rep and hold counting, positioning guidance, and tracking-confidence signals during training sessions. Tracking confidence describes camera capture quality, not exercise quality or technique. Camera frames are processed on your device. Kinetic Atlas does not upload, record, or store camera video or images.</p>
+      <p>Camera access is optional for browsing progressions, using the Coach, training manually, and viewing training history. Camera-counted sessions require camera permission.</p>
+      <p>Optional spoken guidance uses on-device text to speech. Kinetic Atlas does not send or store microphone recordings or Coach audio.</p>
 
-      <h2>Purchases</h2>
-      <p>Kinetic Atlas Pro is designed to use Google Play Billing and RevenueCat for subscription purchases and entitlement status. When enabled, Google Play and RevenueCat may process purchase identifiers, product identifiers, receipts, and subscription status so the app can unlock Pro features.</p>
+      <h2>Optional Pro Cloud Coach</h2>
+      <p>Kinetic Atlas Pro members can explicitly ask the cloud Coach to select one emphasis from a small set of app-reviewed Coach cards. This feature requires an internet connection, Google Sign-In, an active Pro entitlement, and a separate tap for each request. It is not free-form chat and does not run automatically after a workout.</p>
+      <p>Cloud Coach access includes up to 14 successful fresh selections per UTC week, resetting Monday at 00:00 UTC. Failed requests, provider fallbacks, model abstentions, and same-request replays do not use that allowance. The unlimited offline Coach remains available if the cloud service is unavailable or the allowance is exhausted.</p>
+      <p>After you allow cloud Coach, Kinetic Atlas immediately sends the current Google ID token and Google subject identifier to Cloudflare to verify access. The Worker derives a one-way account binding and checks the Google-linked Pro entitlement with RevenueCat. This access check does not include a request identifier, categorical session facts, or offered Coach-card identifiers. Google Sign-In and RevenueCat may already process the subject identifier as part of sign-in and linking the purchase entitlement.</p>
+      <p>For a cloud selection request, the app sends to Cloudflare:</p>
+      <ul>
+        <li>the Google ID token used for authentication, which can contain email, name, profile, and token-time claims;</li>
+        <li>a random request identifier;</li>
+        <li>the Google account subject identifier used for authentication;</li>
+        <li>a deterministic one-way account binding beginning with <code>kacb_</code>, derived from that subject and used to prevent account/outbox mismatches;</li>
+        <li>a fixed catalog version and approved candidate-card identifiers; and</li>
+        <li>a bounded set of categorical fact identifiers, such as whether the local Atlas repeated or advanced, whether a session used camera or manual mode, and whether camera tracking was sufficient or limited.</li>
+      </ul>
+      <p>The app does not send camera frames, video, images, audio, pose landmarks, raw rep events, user-entered workout or Coach text, exact workout timestamps, exercise prescriptions, health or injury notes, or full workout history to the cloud Coach or its AI model.</p>
+      <p>A Cloudflare Worker validates the Google token, verifies the Kinetic Atlas Pro entitlement with RevenueCat, enforces rate and weekly limits, and converts the Google subject identifier into a keyed pseudonymous value before storage. The Worker recomputes and compares the one-way account binding before entitlement, quota, or provider work. It processes the Google token only to authenticate the request and does not log or store the raw token or its profile claims.</p>
+      <p>Entitlement, quota, replay, selection, and deletion-barrier state are serialized in the same strongly consistent per-principal Cloudflare Durable Object. If the five-minute entitlement status is unknown or expired, the Worker polls RevenueCat v2 and commits the result only if the principal state has not changed. RevenueCat webhooks only invalidate that cached status so a fresh poll is required; a webhook never grants Pro access. The configured Cloudflare KV is restricted to deduplicating one-way webhook event references for up to 7 days.</p>
+      <p>The Worker sends Fireworks AI only the categorical fact identifiers and the offered static candidate definitions. It does not send Google or RevenueCat identifiers, the account binding, request identifier, media, raw tracking events, or locally rendered Coach text to Fireworks. Fireworks runs the pinned MiniMax M3 model to return one offered card identifier or abstain. Kinetic Atlas renders reviewed copy for that identifier on the device; the model does not write user-facing instructions.</p>
+      <p>The local Atlas remains authoritative. The cloud Coach cannot change the exercise, rung, sets, reps, hold duration, rest, progression, safety content, or technique content selected by the app. It does not assess technique, infer recovery or fatigue, or make medical decisions.</p>
+
+      <h2>Google Sign-In And Purchases</h2>
+      <p>Google Sign-In is optional for the app as a whole and required only for the Pro cloud Coach. Google processes the sign-in interaction and returns an ID token and account identifier. Google may also return account email, name, or profile information to the device; Kinetic Atlas does not send those profile fields to Fireworks.</p>
+      <p>Kinetic Atlas Pro uses Google Play Billing and RevenueCat for subscription purchases and entitlement status. RevenueCat processes the Google-linked app user identifier, purchase history, product identifiers, receipts or purchase tokens, subscription status, last-seen time, device type, and operating-system information so the app and Worker can verify Pro access.</p>
       <p>The app does not store payment-card details. Payment details are handled by Google Play.</p>
-      <p>For deletion or privacy requests related to subscription entitlement records processed by RevenueCat, contact PierDo at pierdo.dev@gmail.com. Some purchase records may need to be retained where required for legal, tax, fraud-prevention, or platform-support reasons.</p>
 
-      <h2>Accounts, Ads, And Analytics</h2>
-      <p>Kinetic Atlas does not require an account in this build. It does not include advertising SDKs or general app-usage analytics SDKs in this milestone. RevenueCat may provide purchase and subscription analytics needed to operate Kinetic Atlas Pro.</p>
+      <h2>Security, Retention, And Deletion</h2>
+      <p>Coach, purchase, and entitlement requests are encrypted in transit. The Worker does not log request bodies, authorization headers, raw identifiers, fact or candidate context, or provider responses. Redacted operational events contain only closed status values and a truncated one-way request reference; they are kept for up to 7 days, with a maximum of 2,000 events.</p>
+      <p>The Worker temporarily retains:</p>
+      <ul>
+        <li>an in-progress request reservation for up to 2 minutes;</li>
+        <li>a successful same-request replay record for up to 8 days, including a one-way request hash and the selected response but not the raw fact-ID list;</li>
+        <li>a Pro entitlement status in the per-principal Durable Object for up to 5 minutes;</li>
+        <li>a one-way RevenueCat webhook event reference in KV for up to 7 days; and</li>
+        <li>a conservative provider-spend reservation for up to 24 hours.</li>
+      </ul>
+      <p>Open pseudonymous principal state is automatically purged after 35 days without Coach activity. Authenticated deletion replaces it immediately with a minimal closed deletion-epoch tombstone containing only a schema version, deletion epoch, closed status, and last-activity time. It contains no facts, candidates, request results, selections, quota, or entitlement status. The tombstone blocks in-flight work and webhooks from recreating deleted state and is retained for no more than 35 days without later explicit cloud Coach access.</p>
+      <p>The production Fireworks account and Cloudflare logging, backup, training, and retention settings must be verified before the cloud Coach is enabled. Google, Google Play, RevenueCat, Cloudflare, and Fireworks may retain service, security, billing, or legal records under their own policies.</p>
+      <h2 id="cloud-coach-data-deletion">Cloud Coach Data Deletion</h2>
+      <p>Kinetic Atlas provides two authenticated ways to delete pseudonymous cloud Coach state: the in-app cloud Coach deletion control and the <a href="https://kinetic-atlas-coach-worker.pierdo-dev.workers.dev/delete-data">off-app Kinetic Atlas AI Coach data-deletion page</a>. The off-app page asks you to sign in with the same Google account used for the Kinetic Atlas cloud Coach. It does not ask you to type an email address or account identifier. The Worker verifies the Google ID token, derives the same keyed pseudonymous principal server-side, and does not log or store the raw token or its profile claims.</p>
+      <p>Both deletion paths remove the pseudonymous request, quota, replay, selection, and entitlement state and immediately replace it with only the minimal closed deletion-epoch tombstone described above for up to 35 days. A redacted deletion event can remain for up to 7 days, and a spend reservation can remain for up to 24 hours. If you explicitly use cloud Coach again, a fresh open Coach record can be created without restoring the deleted state.</p>
+      <p>After successful in-app deletion, the app clears the pending cloud request, revokes cloud Coach consent, and signs that device out of Coach. Off-app deletion cannot clear data stored locally on a device; clear Kinetic Atlas app storage or uninstall the app to remove locally saved Coach cards, Coach outcomes, and training history. Neither deletion path deletes your Google account or Google Play and RevenueCat purchase records. Contact PierDo at <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a> for privacy help or requests about purchase records; email is not an alternate endpoint for deleting pseudonymous cloud Coach state. Some records may need to be retained for legal, tax, fraud-prevention, security, or platform-support reasons.</p>
+
+      <h2>Ads And Analytics</h2>
+      <p>Kinetic Atlas does not include advertising SDKs or a general app-usage analytics SDK. RevenueCat may provide purchase and subscription analytics needed to operate Kinetic Atlas Pro. Cloudflare and Fireworks process limited operational metadata needed to operate and protect the optional cloud Coach.</p>
 
       <h2>Health And Fitness Notice</h2>
-      <p>Kinetic Atlas is a fitness training tool, not a medical device. It does not provide medical advice and does not diagnose, treat, cure, or prevent medical conditions. Consult a qualified healthcare professional for medical advice, diagnosis, or treatment.</p>
+      <p>Kinetic Atlas is a fitness training tool, not a medical device or a substitute for a qualified coach. It does not provide medical advice and does not diagnose, treat, cure, or prevent medical conditions. Stop if you feel pain and consult a qualified healthcare professional for medical advice, diagnosis, or treatment.</p>
 
       <h2>Third-Party Services</h2>
       <ul>
         <li>MediaPipe Tasks Vision for on-device pose detection.</li>
-        <li>RevenueCat Purchases for subscription entitlement checks and purchase status.</li>
-        <li>Google Play Billing through RevenueCat when subscriptions are configured.</li>
+        <li>Capacitor Social Login by Capgo and Google Sign-In for optional authentication.</li>
+        <li>Google Play Billing and RevenueCat for purchases and Pro entitlement checks.</li>
+        <li>Cloudflare Workers and strongly consistent per-principal Durable Objects for authentication, entitlement polling state, quota, replay protection, selection state, deletion barriers, and request routing; Cloudflare KV only for 7-day one-way RevenueCat webhook event deduplication.</li>
+        <li>Fireworks AI running MiniMax M3 for the bounded selection of an approved Coach card identifier.</li>
       </ul>
 
       <h2>Contact</h2>
-      <p>For privacy questions, contact PierDo at pierdo.dev@gmail.com.</p>
+      <p>For privacy questions, contact PierDo at <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a>.</p>
     </main>
   </body>
 </html>

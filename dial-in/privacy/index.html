@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Dial-In</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 680px; margin: 40px auto; padding: 20px; line-height: 1.65; color: #2e2925; }
+    h1 { color: #6f4e37; font-size: 1.6rem; }
+    h2 { color: #4a3520; font-size: 1.15rem; margin-top: 28px; }
+    a { color: #6f4e37; }
+    li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><strong>Dial-In</strong> — effective August 9, 2026.</p>
+  <p>Dial-In is operated and published by PierDo, the developer entity named in its Google Play listing. Shot logging, CSV tools, and the deterministic Dial-In Coach work locally without an account. Remote Coach is optional and is disabled unless verified Production service bindings are present.</p>
+
+  <h2>Local data</h2>
+  <p>Shots, bean profiles, equipment settings, preferences, and local Coach state/results are stored on your device using IndexedDB. The free local Coach works offline without Google, RevenueCat, or a remote service.</p>
+  <p>Dial-In excludes all app data from Android cloud backup and device-to-device transfer. Deleted local records, scoped Remote Coach sessions, deletion tombstones, and pending purchase/request state are not restored through Android backup or migration.</p>
+
+  <h2>Optional Remote Coach</h2>
+  <p>Remote Coach is not chat. When you explicitly request a plan, data leaves the device for a dedicated Cloudflare Worker as a bounded envelope containing numeric dose/yield, whether yield is adjustable, bounded grinder controls (whether it is adjustable, its direction convention, and its numeric current/minimum/maximum index when available), closed taste and equipment fact IDs, a random request ID, and app-approved option IDs/definitions. The Worker sends Fireworks AI's MiniMax M3 only the closed fact IDs and option IDs/definitions—not the numeric dose/yield or bounded grinder context. Dial-In computes targets and applies all numeric and equipment safety checks locally.</p>
+  <p>Remote Coach does not send notes, bean/roaster/origin names, CSV files, full history, contacts, location, direct hardware identifiers, arbitrary prompt text, rendered numeric targets, or model prose. If remote processing is unavailable or invalid, the free local Coach remains available.</p>
+  <p>Production Remote Coach requests require explicit Google sign-in and an available account balance. Dial-In does not create or send an anonymous install proof.</p>
+
+  <h2>Google sign-in and purchases</h2>
+  <p>Google sign-in begins only when you choose to check Remote Coach account access. The app sends the Google ID token to the Worker for signature, audience, subject, and nonce verification, then discards it. Depending on Google's token claims, it may contain your Google user ID, email, name, or profile fields. The Worker uses only the subject, does not retain the token or profile fields, and gives RevenueCat a derived opaque App User ID instead of your Google name, email, or profile.</p>
+  <p>The opaque ID is not the only information processed by RevenueCat. When you check access or use the optional Coach Pack, the RevenueCat SDK and Google Play process purchase history and transaction information (including Google purchase tokens and last-seen purchase/service time), device type and operating system, and locale/currency for purchase functionality, balance accounting, fraud prevention, and RevenueCat service analytics. RevenueCat does not receive Dial-In notes, bean/roaster/origin names, CSV files, full shot history, Google profile fields, or Remote Coach decision envelopes. Purchase history is encrypted in transit, is not processed only ephemerally, and is required for the optional Remote Coach commerce flow.</p>
+  <p>Ordinary Dial-In sign-out clears the app/Google scoped session but does not call RevenueCat logout or create a new anonymous RevenueCat customer. The next approved account is bound directly to its Worker-derived custom ID. After RevenueCat customer deletion is exactly confirmed, Dial-In detaches the RevenueCat SDK as required to avoid recreating the deleted custom customer. If that local SDK detach fails, Dial-In keeps a durable deletion fence, blocks Remote Coach and commerce, reports deletion as still pending on this device, and retries after restart; it does not report full completion until detach succeeds. RevenueCat may then create an SDK-only anonymous ID. The Worker never accepts that anonymous ID, Dial-In never uses it for Remote Coach access or purchases, and the next approved account is rebound directly to its custom ID.</p>
+  <p>An eligible account can check access before any purchase. The optional one-time Coach Pack adds 5 non-expiring Remote Coach requests. Dial-In shows its localized Google Play price before opening Play. The app does not invent a price or local entitlement. An uncertain purchase refresh is retained for the original opaque account so Dial-In does not prompt an accidental duplicate purchase. If it remains unresolved for seven days, Dial-In can clear only the local purchase lock after you verify Google Play order history, explicitly confirm recovery, sign in to the same account, and receive fresh successful RevenueCat and Worker checks showing the balance is exactly unchanged. This recovery check does not start, cancel, or refund a purchase; any mismatch remains locked for support or deletion.</p>
+  <p>If a Google Play purchase result is still unresolved when you choose deletion, Dial-In warns that deletion does not cancel or refund that transaction. It may still complete and charge through Google Play, and any Remote Coach requests it adds will be permanently forfeited by the deletion. Cloud deletion is not a purchase-dispute or refund mechanism.</p>
+
+  <h2>Retention and recovery</h2>
+  <p>The app keeps only bounded request, option, acknowledgement, access, scoped-session, deletion, and purchase-refresh state needed for correct operation. It stores the acknowledgement-attempt marker before the network call. If the balance effect is still being checked or a response was lost, the same request remains blocked for recovery/support; Dial-In does not label it uncharged or create a replacement. A committed plan is recovered with the same request ID rather than generating or charging another request.</p>
+  <p>The Production service must enforce the reviewed limits before activation: a generated selection awaiting acknowledgement for up to 10 minutes; fixed, non-sliding acknowledgement recovery for up to 35 days after the first claim; completed-response replay/no-regeneration state for up to 24 hours; and opaque paid sessions for up to 15 minutes. Minimal exact acknowledgement receipts and cardinality-capped RevenueCat commerce-event, debit, and ambiguity receipts may remain for up to 90 days for idempotent billing and recovery. A pseudonymous deletion/PITR fence remains for 35 days so stale requests or a database recovery within Cloudflare's 30-day recovery window cannot restore deleted access. Production keeps no per-user application audit log. Processor logs, backups, retention, and model-training controls must be verified during Production provisioning; this policy does not claim zero retention or no training without that verification.</p>
+
+  <h2>Sign-out and deletion</h2>
+  <ul>
+    <li><strong>Sign out</strong> clears the scoped Remote Coach session and cached access but keeps local espresso data.</li>
+    <li><strong>Delete Remote Coach data</strong> permanently deletes the authenticated RevenueCat customer, cloud access/request state, and every remaining non-expiring Coach-request balance. That balance cannot be restored. Local espresso data stays on the device.</li>
+    <li><strong>Delete All Data</strong> deletes local shots, beans, equipment, and Coach data even offline. When a remote account exists it also requests the same irreversible Remote Coach account/balance deletion. Appearance and currency preferences remain selected.</li>
+  </ul>
+  <p>After you confirm deletion, Dial-In first saves a durable account-bound deletion fence before it clears pending plans, purges local data, or contacts the Worker. The fence blocks purchases and Remote Coach plan/acknowledgement calls. Delete All Data also stores a local-purge-pending marker so an interrupted purge resumes after restart. If remote deletion cannot be confirmed, the app reports it as pending and retains on the device only an opaque tombstone and original scoped credential needed to retry. The Worker immediately fences access and clears pending plans, acknowledgement recovery, and exact acknowledgement/commerce receipts; it retains a pseudonymous external deletion/PITR fence for 35 days. If RevenueCat still reports deletion pending, the Worker retains the minimal commerce tombstone beyond that normal fence deadline only until processor deletion can be retried and confirmed. Another Google account cannot delete that state. Only confirmed deletion clears the app's session and tombstone. The app retains only a non-identifying integer deletion generation so an older in-flight operation cannot recreate cleared account state; it contains no account ID, token, balance, or purchase data. Google Play, RevenueCat, or other processors may retain transaction, fraud, tax, audit, or other legally required records even after the customer and remaining request balance are deleted.</p>
+  <p>You can also request Remote Coach cloud deletion without reinstalling Dial-In at <a href="https://dial-in-coach-api.pierdo.net/delete-data">dial-in-coach-api.pierdo.net/delete-data</a>. The page authenticates the original Google account and reports whether deletion is confirmed or pending. It must be operational and verified before Remote Coach is activated in Production.</p>
+
+  <h2>Other collection and permissions</h2>
+  <p>Dial-In displays no ads and does not use cross-app behavioral advertising or tracking. RevenueCat processes the purchase/service analytics described above for optional Remote Coach commerce. For pre-authentication Remote Coach abuse protection and availability, Cloudflare supplies the source network address to the Worker. The Worker validates it in request memory and computes HMAC-SHA-256 with a server-only secret over an <code>edge</code> namespace and endpoint scope. Only an opaque <code>edge:</code> key is passed to Cloudflare's rate-limit binding; neither the raw address nor route name appears in that key. The key is not used for identity, analytics, entitlement, debit, replay, or AI spend. Dial-In writes neither the raw address nor the key to its Worker databases, storage, sessions, accounts, commerce records, audit records, responses, or application logs. Cloudflare operates the approximate rate-limit binding at 10 calls per 60-second configured window and necessarily processes raw network metadata under its processor controls; it does not provide Dial-In a separate per-key erasure or exact backing-retention guarantee. App-controlled raw-address retention ends with the request. CSV export writes a temporary cache file and opens the system share sheet; Dial-In does not upload it. <code>INTERNET</code> supports runtime components and optional Remote Coach. The app does not request location, contacts, camera, or microphone.</p>
+
+  <h2>Age audience</h2>
+  <p>Dial-In is intended for adults age 18 and older and is not directed to children.</p>
+
+  <h2>Contact</h2>
+  <p>Privacy questions and deletion support: <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a>.</p>
+  <p><a href="index.html">&larr; Back to app</a></p>
+</body>
+</html>

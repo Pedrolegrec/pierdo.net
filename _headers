@@ -1,2 +1,5 @@
 /kinetic-atlas/privacy/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/dial-in/privacy/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

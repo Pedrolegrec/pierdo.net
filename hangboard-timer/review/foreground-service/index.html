@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Hangboard Timer — background timer demonstration</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101820;color:#f3f5ef}*{box-sizing:border-box}body{margin:0;padding:32px 20px 60px}main{max-width:760px;margin:auto}h1{font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.15}p,li{line-height:1.6;color:#c5cec5}a{color:#d4ed81}video{display:block;width:100%;max-width:440px;max-height:76vh;margin:24px auto;background:#101820;border:1px solid #42513f;border-radius:12px}small{color:#adb8ad}
+</style>
+</head>
+<body><main>
+<p><a href="../../../..">PierDo</a> / Hangboard Timer</p>
+<h1>Background timer demonstration</h1>
+<p>This recording shows a user starting an interval routine, the timer continuing while the app is in the background, and the ongoing Android notification used to pause the session and stop background timing.</p>
+<video controls playsinline preload="metadata" aria-label="Hangboard Timer foreground-service demonstration"><source src="foreground-service.mp4" type="video/mp4">Your browser does not support this video. <a href="foreground-service.mp4">Download the recording</a>.</video>
+<p><a href="foreground-service.mp4">Open or download the recording</a></p>
+<p>The foreground service starts only after a user starts a session. It keeps the native timer and local phase cues working, provides a visible Stop action, and stops when the session ends. Sessions are limited to 55 minutes and do not restart on boot.</p>
+<p><small>Hangboard Timer 1.0.0 · September 11, 2026. Screen recording on Pixel 8. Short example routine; no exercise or physical-performance assessment is shown. Three cropped excerpts from the same session; the final paused frame is held for readability. Unrelated phone content is excluded.</small></p>
+</main></body></html>

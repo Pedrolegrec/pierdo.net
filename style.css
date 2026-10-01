@@ -42,9 +42,6 @@ main {
 
 .wordmark .seven {
   fill: var(--copper);
-  font-family: 'Sora', sans-serif;
-  font-weight: 600;
-  font-size: 36px;
 }
 
 .wordmark .brand {
@@ -119,7 +116,66 @@ footer a {
   text-decoration: none;
 }
 
+a:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.app-card .arrow {
+  display: inline-block;
+}
+
 @media (max-width: 480px) {
   main { padding: 2rem 1.25rem; }
   .app-card { flex-direction: column; }
+}
+
+/* Motion: opacity and transform only. Played once, never needed to read the page.
+   Hidden start states exist only under html.js and only when motion is welcome. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .ring-line { animation: draw .7s cubic-bezier(.65,0,.35,1) backwards; }
+  html.js .seven {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: settle .45s cubic-bezier(.2,.8,.2,1) .45s backwards;
+  }
+  html.js .brand { animation: slide-in .5s cubic-bezier(.2,.8,.2,1) .2s backwards; }
+  html.js .story p { animation: rise-12 .6s cubic-bezier(.2,.8,.2,1) .35s backwards; }
+
+  html.js .app-card:not(.in),
+  html.js footer:not(.in) { opacity: 0; transform: translateY(18px); }
+  html.js .app-card.in,
+  html.js footer.in { animation: rise-18 .6s cubic-bezier(.2,.8,.2,1) var(--d, 0s) backwards; }
+  /* If motion.js never runs, show everything after a moment rather than stay hidden. */
+  html.js:not(.motion) .app-card,
+  html.js:not(.motion) footer { animation: show 0s 2.5s forwards; }
+
+  .app-card { transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease; }
+  .app-card .icon { transition: transform .3s ease; }
+  .app-card .arrow { transition: transform .25s ease; }
+  .app-card a:focus-visible .arrow { transform: translateX(4px); }
+  .app-card:focus-within {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,.55);
+    box-shadow: 0 8px 24px -12px rgba(45,24,37,.25);
+  }
+  .app-card:focus-within .icon { transform: scale(1.04) rotate(-2deg); }
+
+  @media (hover: hover) {
+    .app-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.55);
+      box-shadow: 0 8px 24px -12px rgba(45,24,37,.25);
+    }
+    .app-card:hover .icon { transform: scale(1.04) rotate(-2deg); }
+    .app-card a:hover .arrow { transform: translateX(4px); }
+  }
+
+  @keyframes draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+  @keyframes settle { from { opacity: 0; transform: translateY(6px) scale(.9); } }
+  @keyframes slide-in { from { opacity: 0; transform: translateX(-8px); } }
+  @keyframes rise-12 { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes rise-18 { from { opacity: 0; transform: translateY(18px); } }
+  @keyframes show { to { opacity: 1; transform: none; } }
 }

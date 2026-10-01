@@ -8,15 +8,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Inter+Tight:wght@400;500&family=JetBrains+Mono&display=swap">
+  <script>if("IntersectionObserver"in window)document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="icon.png">
+  <script src="motion.js" defer></script>
 </head>
 <body>
   <main>
     <header class="wordmark">
       <svg class="ring" viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="28" fill="none" stroke="var(--ink)" stroke-width="2"/>
-        <text x="32" y="42" text-anchor="middle" class="seven">7</text>
+        <circle class="ring-line" cx="32" cy="32" r="28" pathLength="1" transform="rotate(-90 32 32)" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <!-- Sora 600 "7" (OFL) outlined at 36px, ink box centered on 32,32 -->
+        <path class="seven" d="M31.6 45.14H26.24L36.07 23.54L35.74 23.07H22.42V18.86H41.58V22.75ZM26.56 27.28H22.42V18.86H26.56Z"/>
       </svg>
       <span class="brand">PierDo</span>
     </header>
@@ -31,7 +34,7 @@
         <div class="meta">
           <h3>Digit Span</h3>
           <p>Working memory training. Forward, backward, and sequencing drills with personalized session reviews.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.digitspantrainer" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.digitspantrainer" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -40,7 +43,7 @@
         <div class="meta">
           <h3>Dial-In</h3>
           <p>Espresso dialing companion. Log shots, track beans, find the recipe that hits.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.dialin" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.dialin" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -49,7 +52,7 @@
         <div class="meta">
           <h3>Arrow Sessions</h3>
           <p>Score archery practice, preserve setups, and compare matching sessions.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.arrowsessions" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.arrowsessions" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -58,7 +61,7 @@
         <div class="meta">
           <h3>Disc Golf Practice</h3>
           <p>Log disc golf putting and approach practice. Track your progress offline.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.discgolfpractice" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.discgolfpractice" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -67,7 +70,7 @@
         <div class="meta">
           <h3>Glaze Trials</h3>
           <p>Plan glaze test grids, label tiles and compare layers. Keep photos and notes.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.glazetrials" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.glazetrials" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -76,7 +79,7 @@
         <div class="meta">
           <h3>Hangboard Timer</h3>
           <p>Your hangboard intervals, clear cues and session history. No account needed.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.hangboardtimer" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.hangboardtimer" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -85,7 +88,7 @@
         <div class="meta">
           <h3>Loaf Revision</h3>
           <p>Calculate bread formulas, record each bake, and compare what changed.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.doughnotes" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.doughnotes" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -94,7 +97,7 @@
         <div class="meta">
           <h3>Loom Plan</h3>
           <p>Plan warp and weft, keep weaving revisions, and compare finished samples.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.loomplan" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.loomplan" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -103,7 +106,7 @@
         <div class="meta">
           <h3>Spoke Ledger</h3>
           <p>Track bike parts, service history, and recorded distance across installations.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.spokeledger" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.spokeledger" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -112,7 +115,7 @@
         <div class="meta">
           <h3>Stitch Reserve</h3>
           <p>Plan sewing projects, reserve fabric, and keep your materials accounted for.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.pierdo.stitchreserve" rel="noopener">Google Play →</a>
+          <a href="https://play.google.com/store/apps/details?id=com.pierdo.stitchreserve" rel="noopener">Google Play <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
     </section>

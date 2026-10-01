@@ -21,3 +21,12 @@
 
 /arrow-sessions/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/digit-span-trainer/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/disc-golf-practice/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/hangboard-timer/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

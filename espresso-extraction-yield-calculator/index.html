@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espresso Extraction Yield Calculator · PierDo</title>
+  <meta name="description" content="Work out espresso extraction yield (EY%) and brew ratio from your dose, beverage weight and TDS reading. It runs in your browser and nothing you type is sent or saved.">
+  <link rel="canonical" href="https://pierdo.net/espresso-extraction-yield-calculator/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PierDo">
+  <meta property="og:title" content="Espresso extraction yield calculator">
+  <meta property="og:description" content="Extraction yield and brew ratio from dose, beverage weight and TDS, with the formula and sources.">
+  <meta property="og:url" content="https://pierdo.net/espresso-extraction-yield-calculator/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Inter+Tight:wght@400;500&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="calculator.css">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icon.png">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <script src="extraction.js" defer></script>
+  <script src="calculator.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <a class="wordmark" href="../" aria-label="PierDo, home">
+        <svg class="ring" viewBox="0 0 64 64" aria-hidden="true">
+          <circle class="ring-line" cx="32" cy="32" r="28" pathLength="1" transform="rotate(-90 32 32)" fill="none" stroke="var(--ink)" stroke-width="2"/>
+          <path class="seven" d="M31.6 45.14H26.24L36.07 23.54L35.74 23.07H22.42V18.86H41.58V22.75ZM26.56 27.28H22.42V18.86H26.56Z"/>
+        </svg>
+        <span class="brand">PierDo</span>
+      </a>
+    </header>
+
+    <section class="intro">
+      <h1>Espresso extraction yield calculator</h1>
+      <p class="lede">Type in your dose, what ended up in the cup and the TDS you measured. You get extraction yield and brew ratio. The sums happen in your browser; nothing you enter is sent or stored.</p>
+    </section>
+
+    <noscript>
+      <p class="panel">This calculator needs JavaScript. You can also do it by hand: extraction yield (%) = beverage weight (g) × TDS (%) ÷ dose (g).</p>
+    </noscript>
+
+    <form id="calc" class="panel" novalidate autocomplete="off">
+      <h2 id="shot-title">Your shot</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="dose">Dose</label>
+          <div class="input-wrap">
+            <input id="dose" name="dose" type="text" inputmode="decimal" autocomplete="off" aria-describedby="dose-hint dose-msg">
+            <span class="unit" aria-hidden="true">g</span>
+          </div>
+          <p class="hint" id="dose-hint">Dry coffee in the basket, in grams.</p>
+          <p class="msg" id="dose-msg" aria-live="polite" hidden></p>
+        </div>
+        <div class="field">
+          <label for="beverage">Beverage weight</label>
+          <div class="input-wrap">
+            <input id="beverage" name="beverage" type="text" inputmode="decimal" autocomplete="off" aria-describedby="beverage-hint beverage-msg">
+            <span class="unit" aria-hidden="true">g</span>
+          </div>
+          <p class="hint" id="beverage-hint">The liquid in the cup, weighed, in grams.</p>
+          <p class="msg" id="beverage-msg" aria-live="polite" hidden></p>
+        </div>
+        <div class="field">
+          <label for="tds">TDS</label>
+          <div class="input-wrap">
+            <input id="tds" name="tds" type="text" inputmode="decimal" autocomplete="off" aria-describedby="tds-hint tds-msg">
+            <span class="unit" aria-hidden="true">%</span>
+          </div>
+          <p class="hint" id="tds-hint">Refractometer reading as a percent, such as 9.5.</p>
+          <p class="msg" id="tds-msg" aria-live="polite" hidden></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" id="example">Fill in an example</button>
+        <button type="reset" class="btn" id="clear">Clear</button>
+      </div>
+    </form>
+
+    <section class="panel" aria-labelledby="result-title">
+      <h2 id="result-title">Result</h2>
+      <div id="result" role="status">
+        <dl class="stats">
+          <div class="stat">
+            <dt>Extraction yield</dt>
+            <dd><span id="ey-value" class="num">—</span></dd>
+          </div>
+          <div class="stat">
+            <dt>Brew ratio</dt>
+            <dd><span id="ratio-value" class="num">—</span></dd>
+          </div>
+        </dl>
+        <div class="bar" aria-hidden="true">
+          <div class="band"></div>
+          <div class="marker" id="marker" hidden></div>
+        </div>
+        <div class="ticks" aria-hidden="true">
+          <span class="first">10</span>
+          <span class="t17">17</span>
+          <span class="t23">23</span>
+          <span class="last">30%</span>
+        </div>
+        <p id="ey-note" class="note">Enter dose, beverage weight and TDS to see your result.</p>
+        <p id="working" class="working" hidden></p>
+        <p id="check" class="msg warn" hidden></p>
+      </div>
+    </section>
+
+    <form id="target" class="panel" novalidate autocomplete="off">
+      <h2 id="target-title">Aiming for a target</h2>
+      <p class="plain">Pick the extraction you want. This works from the dose, beverage weight and TDS above.</p>
+      <div class="fields single">
+        <div class="field">
+          <label for="target-ey">Target extraction yield</label>
+          <div class="input-wrap">
+            <input id="target-ey" name="target-ey" type="text" inputmode="decimal" autocomplete="off" value="20" aria-describedby="target-ey-msg">
+            <span class="unit" aria-hidden="true">%</span>
+          </div>
+          <p class="msg" id="target-ey-msg" aria-live="polite" hidden></p>
+        </div>
+      </div>
+      <div id="target-result" role="status">
+        <p id="target-tds" class="target-line">Enter dose and beverage weight to see the TDS you would need.</p>
+        <p id="target-yield" class="target-line">Enter dose and TDS to see a first guess at the yield.</p>
+        <p id="target-caveat" class="working" hidden>The yield figure keeps your TDS reading fixed. In practice a longer shot reads weaker, so the change you need is usually a little larger, in the same direction. Treat it as a starting point and measure again.</p>
+      </div>
+    </form>
+
+    <article class="prose">
+      <h2>What you are measuring</h2>
+      <p><strong>TDS</strong> (total dissolved solids) is the share of the liquid in your cup, by weight, that is dissolved coffee. A coffee refractometer reads it from how much the liquid bends light. <strong>Extraction yield</strong> (EY) turns that into a share of your dry coffee: how much of the dose ended up in the cup.</p>
+      <p>They answer different questions. TDS is strength; EY is how far the coffee was extracted. With the same EY, a 1:1.5 shot reads twice the TDS of a 1:3 shot.</p>
+
+      <h2>The formula</h2>
+      <p class="formula">EY (%) = beverage weight (g) × TDS (%) ÷ dose (g)</p>
+      <p>For example, 18.5 g of coffee, 37 g in the cup and a TDS of 9.4% gives 37 × 9.4 ÷ 18.5 = 18.8%. Use the weight of the liquid in the cup, not the water the machine used, because the grounds hold some of it back. Brew ratio here is beverage weight divided by dose, so 18 g in and 36 g out is 1:2.</p>
+
+      <h2>Where the numbers usually sit</h2>
+      <ul>
+        <li>The Specialty Coffee Association advises that coffee most often tastes best when 17% to 23% of the dry coffee is extracted. Above about 23% tends to taste bitter and below about 17% sour <a class="cite" href="#source-1" aria-label="source 1">[1]</a>.</li>
+        <li>Another reference gives 18% to 22% as the desirable range for most coffee and says espresso yields are generally quoted at 15% to 25% <a class="cite" href="#source-2" aria-label="source 2">[2]</a>.</li>
+        <li>Cafés commonly use 15 to 22 g of coffee for 30 to 60 g of beverage <a class="cite" href="#source-1" aria-label="source 1">[1]</a>.</li>
+        <li>Rearranged, the formula says that at a 1:2 ratio, 17% to 23% EY is a cup reading of 8.5% to 11.5% TDS. That is arithmetic, not a standard.</li>
+      </ul>
+      <p>Those ranges describe where coffee tends to taste balanced. They are a map, and your palate decides where on it you want to be.</p>
+
+      <h2>Getting a reading you can trust</h2>
+      <ul>
+        <li>Weigh the beverage on a scale. Crema makes volume misleading.</li>
+        <li>Refractive index changes with temperature <a class="cite" href="#source-1" aria-label="source 1">[1]</a>, so let the sample reach the temperature your refractometer asks for.</li>
+        <li>Filter the sample through a syringe filter. Espresso carries fine particles that a paper filter lets through and that skew the reading <a class="cite" href="#source-3" aria-label="source 3">[3]</a>.</li>
+        <li>Remember that EY is an estimate: it rests on a TDS reading and two weights, and each has some error.</li>
+      </ul>
+    </article>
+
+    <aside class="panel app-note" aria-labelledby="app-title">
+      <h2 id="app-title">Keeping track of what you changed</h2>
+      <p>This page does a sum and forgets it. I make <strong>Dial-In</strong>, an Android app that keeps the history: each shot's dose, yield, time, grind, taste, TDS and EY, saved on your phone. It works offline with no account, and core shot logging is free.</p>
+      <p><a class="store-link" href="https://play.google.com/store/apps/details?id=com.pierdo.dialin&amp;referrer=utm_source%3Dpierdo.net%26utm_medium%3Dweb%26utm_campaign%3Despresso-extraction-yield-calculator" rel="noopener">Dial-In on Google Play <span aria-hidden="true">→</span></a></p>
+    </aside>
+
+    <section class="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources</h2>
+      <ol>
+        <li id="source-1">M. I. Cameron et al., “Systematically Improving Espresso: Insights from Mathematical Modeling and Experiment,” <i>Matter</i> 2(3), 631–648 (2020). <a href="https://doi.org/10.1016/j.matt.2019.12.019" rel="noopener">doi.org/10.1016/j.matt.2019.12.019</a>. Defines EY as the ratio of solvated coffee mass to the dry coffee used; quotes the SCA 17% to 23% range and cafe doses and yields.</li>
+        <li id="source-2">“Coffee extraction,” Wikipedia. <a href="https://en.wikipedia.org/wiki/Coffee_extraction" rel="noopener">en.wikipedia.org/wiki/Coffee_extraction</a>. The formula Y = M₂·t ÷ M₁ with a worked example, the 18% to 22% range and the 15% to 25% espresso figure.</li>
+        <li id="source-3">Coffee ad Astra, “Measuring and Reporting Extraction Yields” (17 February 2019). <a href="https://coffeeadastra.com/2019/02/17/measuring-and-reporting-extraction-yields/" rel="noopener">coffeeadastra.com/2019/02/17/measuring-and-reporting-extraction-yields/</a>. The same formula as E = C × B ÷ D, and the note that espresso needs syringe filtering.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p class="privacy">What you type stays in your browser: this page sets no cookies and stores nothing. Visits are counted with Cloudflare Web Analytics, which does not use cookies.</p>
+      <p><a href="../">PierDo</a> · <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a> · found a mistake? Please write.</p>
+    </footer>
+  </main>
+</body>
+</html>

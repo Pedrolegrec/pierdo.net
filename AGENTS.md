@@ -36,3 +36,10 @@ git -C /app/dev/public-presence/pierdo.net status --short
 
 For visual changes, also preview the static site in a browser or a local
 static server when practical.
+
+When changing the espresso calculator's maths or input handling, also run its
+built-in-runner tests (Node only, nothing to install):
+
+```bash
+node --test /app/dev/public-presence/pierdo.net/espresso-extraction-yield-calculator/extraction.test.js
+```

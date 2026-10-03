@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rate Log support · PierDo</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="icon" type="image/svg+xml" href="../icon.svg">
+</head>
+<body>
+<header><a href="../">Rate Log by PierDo</a><img src="../icon.svg" alt="" width="56" height="56"></header>
+<main>
+<nav aria-label="Page navigation"><a href="../privacy/">Privacy</a><a href="../support/">Support</a></nav>
+<h1>Using Rate Log</h1>
+<p>Rate Log records how far your watch is from your phone’s clock each time you check it, and works out how many seconds a day it gains or loses.</p>
+<h2>Take a reading</h2>
+<p>On the Log tab choose Take a reading, then tap the big button at the instant the watch’s second hand reaches 12. The app stores the phone’s time at that tap and works out the offset from the nearest minute, so it assumes your watch is within 30 seconds of the minute mark. If it is further off, choose Watch is more than 30 s off and type the minute the watch shows.</p>
+<h2>The phone clock</h2>
+<p>The reference is always this phone’s clock. Rate Log does not verify it and makes no network time request, so keep Automatic date and time on. Open the phone’s Settings, then System, then Date and time, and turn on Automatic date and time, and Automatic time zone if it is offered. The More tab has a Phone clock row where you can confirm you checked.</p>
+<p>A reading cannot be earlier than the one before it in the same run. If you see that message, check the phone’s date and time.</p>
+<h2>Reading the rate</h2>
+<p>A rate needs two readings in the same run. It is the change in offset divided by the days between them, shown with a plus-or-minus band. The band is wide for readings a day apart and narrow for a week, so take readings several days apart for a narrower band. When the band is larger than the rate, or the readings are less than an hour apart, the app says the rate is not yet meaningful. How it is measured, in the More tab, explains the 0.2 second tap uncertainty the bands assume and that the phone clock itself is not verified.</p>
+<h2>Runs</h2>
+<p>Choose Time set after you set the watch, or Regulated after a watchmaker adjusts it. That starts a new run, so a rate never spans an adjustment. Earlier readings stay in their own run.</p>
+<h2>Notes, edits and the chart</h2>
+<p>Tap a reading to add a note, change it or delete it. The Trend tab charts the offset over time for the watch you picked.</p>
+<h2>Watches</h2>
+<p>Without Lab, up to three watches can be active at a time. Archive a watch on the Watches tab to make room: archived watches keep their readings and stay in exports.</p>
+<h2>Export, back up and restore</h2>
+<p>Open the More tab and find Your data. Choose Export readings as CSV to save your readings as a CSV file, or Save a backup file to save a JSON backup. The app asks where to save the file; it is written only there.</p>
+<p>To restore, choose Restore from a backup file in the same section and pick the file. A backup holds every watch, run, reading and note. After you confirm, the backup replaces what is on this device, so make a new backup first if you want to keep it. A backup is a single JSON file from Rate Log; other files are refused. Purchases are never saved in or restored from a backup.</p>
+<h2>Included from the start, and Lab</h2>
+<p>Included from the start: up to three active watches, readings with notes, runs, the rate between readings with its band, the offset chart, CSV export, and backup and restore. Rate Log Lab is one optional purchase that adds unlimited watches, a trend rate fitted through your readings over 7 days, 14 days, 30 days or the whole run with its error band and flags for readings that sit far from the line, position tags and the rate by position, before and after regulation sessions, and a plain-text summary to give your watchmaker. There is no subscription. Everything included from the start keeps working with or without Lab.</p>
+<h2>Restore a purchase</h2>
+<p>Open the More tab, then Rate Log Lab, and choose Restore purchase. Use the Google Play account that bought Lab and keep the device online while it checks. If checkout was interrupted, choose Restore purchase or Check purchase status before you try to buy again, and do not start another purchase while one is pending.</p>
+<h2>Delete all data</h2>
+<p>Delete all data in the More tab removes every watch, run, reading and note from this device. A purchase you made stays unlocked. Save a backup file first if you may need the data.</p>
+<h2>Storage trouble</h2>
+<p>If a save fails, what you were entering stays on screen so you can try again. Check how much storage is left on the device. Do not clear app data to fix a save problem: that removes your notebook. Export a backup first if you can.</p>
+<h2>Contact</h2>
+<p>Email <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a> with the app version (shown under About Rate Log in the More tab), your Android version, what happened and the steps to reproduce it. Only send readings if you choose to share them to explain the issue. Never send passwords or payment-card details.</p>
+</main>
+<footer><a href="/">PierDo</a> · <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a></footer>
+</body>
+</html>

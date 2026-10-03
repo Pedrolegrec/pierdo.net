@@ -33,3 +33,6 @@
 
 /conduit-bend/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/rate-log/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

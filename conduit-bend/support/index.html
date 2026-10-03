@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conduit Bend support · PierDo</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="icon" type="image/svg+xml" href="../icon.svg">
+</head>
+<body>
+<header><a href="../">Conduit Bend by PierDo</a><img src="../icon.svg" alt="" width="56" height="56"></header>
+<main>
+<nav aria-label="Page navigation"><a href="../privacy/">Privacy</a><a href="../support/">Support</a></nav>
+<h1>Using Conduit Bend</h1>
+<p>Conduit Bend is a calculation aid. Verify every mark against local code and your bender manufacturer’s marks, and try it on a scrap piece before you bend a stick.</p>
+<h2>Marks and shrink</h2>
+<p>Pick a bend, choose the pipe, and enter the values on the fraction keypad, in inches or centimeters. Every mark is measured from the end of the pipe. Shrink is how much shorter the finished pipe ends up; add it to the length you cut. The result names the model it used: the published field multipliers, which are rounded the way tables in bender guides are, or exact geometry. It also shows the formula, so you can check it against your bender’s own guide. Change the model under Multipliers in the More tab.</p>
+<p>A stub-up uses the take-up of the chosen pipe. You can replace it with the take-up printed on your own bender.</p>
+<h2>When a bend cannot be made</h2>
+<p>If the numbers cannot work, for example a stub-up shorter than the take-up, or bends closer together than the app allows, the app shows the cause and the nearest valid value instead of a negative or impossible mark. Change a value and try again. The closest the app allows is its own lower bound, so check your bender’s minimum distance between bends.</p>
+<h2>Bend sheet</h2>
+<p>Choose Add to bend sheet on the Bend tab, then open the Sheet tab to lay out a whole stick, 10 feet unless you change the stick length. The first bend’s distance is from the end of the pipe, and each later bend’s distance is from the last mark of the bend before it. A stub-up or kick can only be the first bend on a sheet, and the app works out its mark for you, so there is no distance to type for it. Both saddles take the measured distance to the center of the obstruction, and the app adds the shrink to find the center mark.</p>
+<p>Every mark is measured from the end of the pipe, and shrink adds up through the bends before it. Pipe used is the position of the last mark, and the sheet checks that it fits on the stick. The sheet you are editing is kept on the device when you close the app.</p>
+<h2>Back up and restore</h2>
+<p>Open the More tab, find Backup and export and choose Save a backup file. The app asks where to save the file; it is written only there. A backup holds your settings and every saved bend sheet. To restore, choose Restore from a backup file in the same section and pick the file. After you confirm, the backup replaces the sheets and settings on this device, so make a new backup first if you want to keep what is there. A backup is a single JSON file from Conduit Bend; other files are refused. Purchases are never saved in or restored from a backup. To share or print one sheet, choose Share as text file on the Sheet tab.</p>
+<h2>Included from the start, and Pro</h2>
+<p>Included from the start: the offset, the 90 degree stub-up and the 3 point saddle, pipe sizes up to 1 inch EMT, one saved bend sheet that you can replace with another, backup and restore, and text export. Pro is a one-time purchase that adds the 4 point saddle, kick, rolling offset and parallel offset, larger pipe sizes with IMC and rigid take-up presets, and unlimited saved bend sheets. When you choose one of these, or save a second bend sheet, the app shows what Pro adds, and what you entered stays as it is until you choose.</p>
+<h2>Restore a purchase</h2>
+<p>Open the More tab, then Conduit Bend Pro, and choose Restore purchase. Use the Google Play account that bought Pro and keep the device online while it checks. If checkout was interrupted, choose Restore purchase or Check purchase status before you try to buy again, and do not start another purchase while one is pending.</p>
+<h2>Storage trouble</h2>
+<p>If a save fails, the sheet you were editing stays on screen so you can try again. Check the free storage on the device. Do not clear app data to fix a save problem: that removes your sheets. Export a backup first if you can.</p>
+<h2>Contact</h2>
+<p>Email <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a> with the app version (shown under About in the More tab), your Android version, what happened and the steps to reproduce it. Only send bend sheets if you choose to share them to explain the issue. Never send passwords or payment-card details.</p>
+</main>
+<footer><a href="/">PierDo</a> · <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a></footer>
+</body>
+</html>

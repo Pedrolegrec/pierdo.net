@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Dial-In for iPhone</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 680px; margin: 40px auto; padding: 20px; line-height: 1.65; color: #2e2925; }
+    h1 { color: #6f4e37; font-size: 1.6rem; }
+    h2 { color: #4a3520; font-size: 1.15rem; margin-top: 28px; }
+    a { color: #6f4e37; }
+    li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><strong>Dial-In for iPhone</strong> — effective October 2026.</p>
+  <p>Dial-In is an espresso shot tracking app made under the PierDo name by the independent developer shown as the seller in its App Store listing. Free Core shot logging, CSV tools, and the deterministic Dial-In Coach work locally without an account. Dial-In Lab is an optional permanent local-toolkit purchase. Dial-In for iPhone has no account and no sign-in, and PierDo runs no server that receives your Dial-In data.</p>
+
+  <h2>Local data</h2>
+  <p>Espresso shot logs, bean profiles, equipment settings, preferences, deterministic Coach state, and Coach results are stored locally on your device using IndexedDB. If used, Dial-In Lab also stores recipe revisions, controlled-session pull snapshots and recaps, optional temperature/pressure/preinfusion/basket/puck-prep/water/roast/open-date/gear fields, multiple gear and maintenance profiles, and the last generated consistency/freshness report locally in IndexedDB. The free local Coach and every Free Core feature work without an account, RevenueCat, or a remote service.</p>
+  <p>Lab consistency and freshness outputs are descriptive local summaries, not scientific or safety measurements. When active Lab ownership is later refunded or revoked, existing Lab artifacts remain readable and exportable, but the app blocks new premium creation/editing and does not recompute new Lab analytics from later Free Core shots.</p>
+  <p>Dial-In excludes the folder where it keeps its local data (shots, beans, equipment, preferences, and Lab data) from iCloud and device backups. Records you delete are therefore not brought back by restoring a backup.</p>
+
+  <h2>Purchases</h2>
+  <p>Purchases are optional and are handled by Apple through the App Store. Dial-In uses RevenueCat, a purchase service, to check and restore what you bought. Apple processes your App Store purchases under its own terms and privacy policy.</p>
+  <p>When you discover, purchase, or restore Dial-In Lab, or buy a tip, the RevenueCat SDK and the App Store process purchase history and transaction information (including Apple transaction identifiers), device type and operating system version, and locale/currency as needed for purchase functionality, fraud prevention, and RevenueCat service analytics. RevenueCat does not receive Dial-In notes, bean/roaster/origin names, CSV or Lab export files, full shot history, or Lab recipes/sessions/advanced fields. RevenueCat may also receive technical information such as your IP address and a device identifier, as described in its privacy policy. Purchase history is encrypted in transit, is not processed only ephemerally, and is required only when you enter an optional purchase path.</p>
+  <p>Dial-In Lab is a separate non-consumable product, <code>dial_in_lab_lifetime</code>, with entitlement <code>dial_in_lab</code>. Its purchase and restore need no account or sign-in. RevenueCat creates an anonymous, install-scoped App User ID on your iPhone for this. Dial-In stores a namespaced SHA-256 binding of the current RevenueCat original App User ID with the exact product ID, schema version, and verification time; it does not persist the raw App User ID in Lab storage. A verified same-owner exact inactive/refund signal removes the cached unlock, while offline/error/unknown or a different RevenueCat owner cannot erase an established grant. An exact active restore may rebind the grant to the current App Store purchase owner. Advanced shot context is stored in the local Lab record keyed by shot ID rather than in the Free Core shot record.</p>
+  <p>Dial-In Lab is a one-time local unlock, not a subscription, and has no recurring charge. The App Store supplies the localized price before purchase, and the price shown by the App Store for your storefront is authoritative.</p>
+  <p>If a Lab purchase result is unresolved or a Lab purchase operation is still running, Dial-In blocks Delete All Data until you use <strong>Restore / check</strong> or the operation finishes. If you delete the app or its data, you can restore Dial-In Lab on the same Apple Account with <strong>Restore / check</strong>.</p>
+  <p>Apple and RevenueCat may retain purchase, fraud, tax, or audit records under their own policies and legal obligations. Delete All Data does not erase records those companies must legally retain.</p>
+
+  <h2>Optional tips</h2>
+  <p>Optional tips are repeatable App Store in-app purchases with preset localized amounts. They add no Lab access or other app features. RevenueCat processes tip transactions using the same purchase data described above. A separate local record stores the product, purchase-owner identifier, pre-purchase transaction identifiers and pending status so an uncertain result cannot start a duplicate payment. Tips are separate from Lab ownership.</p>
+
+  <h2 id="data-deletion">Data deletion</h2>
+  <ul>
+    <li><strong>Delete All Data</strong> deletes local shots, beans, equipment, Coach data, Lab recipes/sessions/gear/reports, and shot-associated advanced Lab fields even when offline. Appearance, Motion preference, currency, a verified Lab grant, and any unresolved Lab duplicate-purchase guard remain. This operation is blocked while a Lab purchase is unresolved.</li>
+  </ul>
+  <p>Deleting one shot, deleting all shots, or replacing shots/beans from CSV also deletes the advanced Lab fields attached to the deleted core shots. Controlled-session recaps intentionally contain their own immutable dose/yield/time/grind/taste pull snapshots, so those saved recap measurements remain after a core shot deletion and are labelled as a deleted-shot saved snapshot in Lab. <strong>Delete All Data</strong> removes those session snapshots and recaps.</p>
+  <p>After you confirm Delete All Data, Dial-In stores a local-purge-pending marker so an interrupted purge resumes after restart, and atomically advances Lab entitlement/data generations so a late save cannot recreate cleared Lab content. Deleting the app removes local Lab data and may remove its cached offline grant. Dial-In has no account or server-side copy of your data to delete. To ask about purchase records held by Apple or RevenueCat, write to the contact address below.</p>
+
+  <h2>Other collection and permissions</h2>
+  <ul>
+    <li>Dial-In does not display ads or use cross-app behavioral advertising/tracking. RevenueCat processes the purchase/service analytics described above for optional Dial-In Lab and tip purchases.</li>
+    <li>Dial-In uses the network only for optional purchases, through the App Store and RevenueCat.</li>
+    <li>CSV export writes a temporary file to device cache and opens the system share sheet; Dial-In does not upload it. CSV import restores Free Core shot/bean columns but does not restore Lab recipes, sessions, gear profiles, or advanced fields. Dial-In Lab provides a separate local JSON export for those artifacts and fields; it currently has no Lab JSON import. The Lab export never includes entitlement grants, pending-purchase records, raw or hashed owner bindings, or purchase verification timestamps.</li>
+    <li>Dial-In does not request location, contacts, camera, or microphone.</li>
+  </ul>
+
+  <h2>Age audience</h2>
+  <p>Dial-In is intended for adults age 18 and older and is not directed to children.</p>
+
+  <h2>Changes and contact</h2>
+  <p>We may update this policy. Material changes will update the effective date above.</p>
+  <p>Privacy questions and deletion support: <a href="mailto:pierdo.dev@gmail.com">pierdo.dev@gmail.com</a>.</p>
+  <p><a href="../../../index.html">&larr; Back to PierDo</a></p>
+</body>
+</html>

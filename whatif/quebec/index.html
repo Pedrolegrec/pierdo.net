@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What if the sea rose one metre a day? Québec</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Play the flood: the sea rises one metre a day over Québec City, from Dufferin Terrace.">
+<link rel="canonical" href="https://pierdo.net/whatif/quebec/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PierDo">
+<meta property="og:title" content="What if the sea rose one metre a day? Québec">
+<meta property="og:description" content="Play the flood: the sea rises one metre a day over Québec City, from Dufferin Terrace.">
+<meta property="og:url" content="https://pierdo.net/whatif/quebec/">
+<meta property="og:image" content="https://pierdo.net/whatif/quebec/poster.jpg">
+<link rel="icon" href="data:,">
+<style>
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond.ttf") format("truetype"); font-weight: 300 700; font-style: normal; font-display: swap; }
+:root { --ground: #F0EAFC; --ink: #201A32; --accent: #6334B5; --muted: #5F566F; --max-width: 640px; --gap: 2rem; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ground); color: var(--ink); }
+body { font: 400 1rem/1.5 "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-text-size-adjust: 100%; }
+h1, h2, .num, button { font-family: "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+#scene { position: relative; width: 100%; height: calc(100svh - 190px); min-height: 340px; max-height: 920px; background: #9fb4c8; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
+#scene.drag { cursor: grabbing; }
+canvas#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+#shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(8,12,20,.38) 0%, rgba(8,12,20,0) 24%, rgba(8,12,20,0) 66%, rgba(8,12,20,.55) 100%); }
+#head { position: absolute; left: 14px; right: 14px; top: 10px; pointer-events: none; }
+#title { margin: 0 40px; text-align: center; color: #fff; font: 600 clamp(1.45rem, 6.4vw, 2.6rem)/1.08 "Cormorant Garamond", Georgia, serif; text-shadow: 0 2px 16px rgba(0,0,0,.6), 0 0 3px rgba(0,0,0,.4); pointer-events: none; }
+#place { margin-top: 6px; text-align: center; color: #fff; font: 600 .78rem/1.2 "Inter Tight", system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; opacity: .9; text-shadow: 0 1px 8px rgba(0,0,0,.6); pointer-events: none; }
+#counter { margin-top: 14px; color: #fff; pointer-events: none; text-shadow: 0 2px 12px rgba(0,0,0,.6); font-variant-numeric: lining-nums tabular-nums; }
+#counter .day { font: 600 clamp(2rem, 9vw, 3.4rem)/1 "Cormorant Garamond", Georgia, serif; }
+#counter .num { font: 600 clamp(1.1rem, 5vw, 1.8rem)/1.2 "Cormorant Garamond", Georgia, serif; opacity: .95; }
+#under { position: absolute; left: 14px; right: 14px; bottom: 10px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,.8); font-size: .92rem; line-height: 1.3; }
+#under b { display: block; font: 700 .7rem/1.2 "Inter Tight", system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; opacity: .8; margin-bottom: 2px; }
+#hint { position: absolute; left: 0; right: 0; top: 42%; text-align: center; color: #fff; font-size: .85rem; pointer-events: none; text-shadow: 0 1px 8px rgba(0,0,0,.8); opacity: .9; transition: opacity .8s; }
+#loading { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; background: #0b1018; color: #dfe6f2; font-size: .95rem; padding: 1rem; transition: opacity .6s; }
+#loading.done { opacity: 0; pointer-events: none; }
+#nogl { display: none; position: absolute; inset: 0; background: #0b1018 center/cover no-repeat url("poster.jpg"); color: #fff; align-items: flex-end; }
+#nogl p { margin: 0; padding: 1rem; background: rgba(8,12,20,.72); width: 100%; font-size: .95rem; }
+#panel { max-width: var(--max-width); margin: 0 auto; padding: 12px 16px 6px; }
+.row { display: flex; align-items: center; gap: 12px; }
+#play { flex: none; min-width: 5.6rem; height: 44px; border: 0; border-radius: 22px; background: var(--accent); color: #fff; font-weight: 600; font-size: .95rem; cursor: pointer; padding: 0 18px; }
+#play:focus-visible, .vp button:focus-visible, #lang:focus-visible, input[type=range]:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+#day { flex: 1; width: 100%; height: 44px; accent-color: var(--accent); margin: 0; }
+.vp { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; align-items: center; }
+.vp button { height: 38px; border-radius: 19px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); font-weight: 600; font-size: .85rem; padding: 0 14px; cursor: pointer; }
+.vp button[aria-pressed=true] { background: var(--accent); color: #fff; }
+#lang { position: absolute; right: 10px; top: 10px; height: 34px; min-width: 40px; border-radius: 17px; border: 1.5px solid rgba(255,255,255,.85); background: rgba(8,12,20,.35); color: #fff; font-weight: 600; font-size: .8rem; cursor: pointer; }
+footer { max-width: var(--max-width); margin: 0 auto; padding: 18px 16px 40px; }
+footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
+.store-link { display: inline-block; margin: 6px 0 18px; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.credits { color: var(--muted); font-size: .8rem; line-height: 1.5; margin: 0; padding: 0; list-style: none; }
+.credits li { margin: 3px 0; }
+@media (min-width: 900px) { #scene { height: calc(100svh - 170px); } }
+</style>
+</head>
+<body>
+<div id="scene">
+  <canvas id="gl"></canvas>
+  <div id="shade"></div>
+  <div id="head"><h1 id="title"></h1><div id="place"></div><div id="counter"><div class="day"></div><div class="num"></div></div></div>
+  <button type="button" id="lang" aria-label="Langue / Language">FR</button>
+  <div id="hint"></div>
+  <div id="under" aria-live="polite"><b></b><span></span></div>
+  <div id="nogl"><p></p></div>
+  <div id="loading"><div id="loadmsg">Loading the map…</div></div>
+</div>
+<section id="panel">
+  <div class="row">
+    <button id="play" type="button"></button>
+    <input id="day" type="range" min="0" max="56" step="any" value="0">
+  </div>
+  <div class="vp" role="group">
+    <button type="button" data-v="river" aria-pressed="true"></button>
+    <button type="button" data-v="terrace" aria-pressed="false"></button>
+    <button type="button" data-v="levis" aria-pressed="false"></button>
+  </div>
+</section>
+<footer>
+  <h2 id="next"></h2>
+  <a class="store-link" id="more" href="https://pierdo.net/"></a>
+  <ul class="credits" id="credits"></ul>
+</footer>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/addons/" } }</script>
+<script type="module" src="./play.js"></script>
+</body>
+</html>

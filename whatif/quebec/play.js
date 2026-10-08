@@ -102,9 +102,9 @@ const post = makePost(renderer, scene, camera, RW, RH, { ao: PRESET.ao, aoFade: 
   for (const h of houses) if (h.name) { E(h.ground, `${h.name}: water at ground level`, `${h.name} : l’eau au niveau du sol`); E(h.top, `${h.name}: roof under water`, `${h.name} : toit sous l’eau`); }
   const g = houses.map((h) => h.ground), t = houses.map((h) => h.top), n = houses.length;
   E(Math.min(...g), 'Place Royale: water reaches the first house', 'Place-Royale : l’eau atteint la première maison');
-  E(Math.max(...g), `Place Royale: water at the base of all ${n} houses in the data`, `Place-Royale : l’eau au pied des ${n} maisons des données`);
-  E(Math.max(...t), `Place Royale: all ${n} roofs under water`, `Place-Royale : les ${n} toits sous l’eau`);
-  E(dk, 'Dufferin Terrace: water reaches the deck', 'Terrasse Dufferin : l’eau atteint le platelage');
+  E(Math.max(...g), 'Place Royale: water at the doorsteps', 'Place-Royale : l’eau aux portes des maisons');
+  E(Math.max(...t), 'Place Royale: the roofs go under', 'Place-Royale : les toits passent sous l’eau');
+  E(dk, 'Dufferin Terrace: water reaches the deck', 'Terrasse Dufferin : l’eau atteint la promenade');
   E(ch, 'Château Frontenac: water at ground level', 'Château Frontenac : l’eau au niveau du sol');
   ev.list.sort((a, b) => a.y - b.y);
 }

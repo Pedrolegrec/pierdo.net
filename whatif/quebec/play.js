@@ -158,7 +158,7 @@ function applyCamera() {
 // pointers: one finger/mouse = turn, two fingers = pinch zoom, wheel = zoom
 const ptr = new Map(); let pinch0 = 0, zoom0 = 1;
 function interacted() { $('hint').style.opacity = '0'; }
-sceneEl.addEventListener('pointerdown', (e) => { interacted(); try { sceneEl.setPointerCapture(e.pointerId); } catch (err) { /* wifplay3: hint fades even if capture fails */ } ptr.set(e.pointerId, [e.clientX, e.clientY]); sceneEl.classList.add('drag');
+sceneEl.addEventListener('pointerdown', (e) => { if (e.target.closest && e.target.closest('button')) return; /* the FR/EN button sits inside #scene: capturing its pointer swallowed its click */ interacted(); try { sceneEl.setPointerCapture(e.pointerId); } catch (err) { /* wifplay3: hint fades even if capture fails */ } ptr.set(e.pointerId, [e.clientX, e.clientY]); sceneEl.classList.add('drag');
   if (ptr.size === 2) { const [a, b] = [...ptr.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); zoom0 = view.tzoom; } interacted(); });
 sceneEl.addEventListener('pointermove', (e) => { const p = ptr.get(e.pointerId); if (!p) return; const dx = e.clientX - p[0], dy = e.clientY - p[1]; p[0] = e.clientX; p[1] = e.clientY;
   const v = VP[vpName];

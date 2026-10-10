@@ -108,7 +108,7 @@ async function createLandmarker() {
 function stopLive(msg) {
   if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; }
   video.srcObject = null; crossfade(curJ); state.mode = 'watch'; $('pip').hidden = true; $('btnPip').hidden = true;
-  $('btnLive').textContent = 'Dance with him'; $('btnLive').setAttribute('aria-pressed', 'false'); say(msg || 'He is dancing his dance. Tap Dance with him to make him copy you.');
+  $('btnLive').textContent = 'Dance with him'; $('btnLive').setAttribute('aria-pressed', 'false'); say(msg || 'He is dancing his dance. Tap Dance with him and he will try to copy you.');
 }
 async function startLive() {
   if (state.mode === 'live' || $('btnLive').disabled) { stopLive(); return; }
@@ -129,7 +129,7 @@ async function startLive() {
   }
   $('btnLive').disabled = false; crossfade(curJ); state.mode = 'live'; lastVT = -1;
   $('btnLive').textContent = 'Stop camera'; $('btnLive').setAttribute('aria-pressed', 'true'); $('btnPip').hidden = false; $('pip').hidden = !state.picture;
-  say('Step back until he can see you, and move. He copies you like a mirror.');
+  say('Step back until he can see you, and move. He tries to copy you, like a mirror.');
 }
 $('btnLive').addEventListener('click', startLive);
 
@@ -174,5 +174,5 @@ window.__toy = {
     if (!renderer.getContext()) throw new Error('no webgl');
     dance = await loadDance('./scene/pose-v10.json'); window.__toy.loadMs = Math.round(performance.now() - t0);
   } catch (e) { console.warn(e); $('nogl').style.display = 'flex'; $('loading').classList.add('done'); $('btnLive').disabled = true; $('btnMusic').disabled = true; return; }
-  resize(); say('He is dancing his dance. Tap Dance with him to make him copy you.'); requestAnimationFrame(frame);
+  resize(); say('He is dancing his dance. Tap Dance with him and he will try to copy you.'); requestAnimationFrame(frame);
 })();

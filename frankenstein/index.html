@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dance with the creature | PierDo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A Halloween toy: watch Frankenstein's creature dance, or turn your camera on and he copies your moves. Runs in your browser; your camera picture never leaves your device.">
+<link rel="canonical" href="https://pierdo.net/frankenstein/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PierDo">
+<meta property="og:title" content="Dance with the creature">
+<meta property="og:description" content="Watch Frankenstein's creature dance, or turn your camera on and he copies your moves. Runs in your browser.">
+<meta property="og:url" content="https://pierdo.net/frankenstein/">
+<meta property="og:image" content="https://pierdo.net/frankenstein/poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/addons/" } }</script>
+<style>
+:root { --ground: #F0EAFC; --ink: #201A32; --accent: #6334B5; --muted: #5F566F; --max-width: 640px; --gap: 2rem; --night: #0b1228; --night-ink: #e9e4fa; --pumpkin: #ff7a1a; --gutter: 16px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ground); color: var(--ink); }
+body { font: 400 1rem/1.5 "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+h1, h2, button { font-family: "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+a { color: var(--accent); }
+#scene { position: relative; width: 100%; height: calc(100svh - 230px); min-height: 360px; max-height: 920px; background: var(--night); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
+#scene.drag { cursor: grabbing; }
+#scene:focus-visible { outline: 3px solid var(--pumpkin); outline-offset: -3px; }
+canvas#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+#shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(5,8,20,.55) 0%, rgba(5,8,20,0) 26%, rgba(5,8,20,0) 68%, rgba(5,8,20,.7) 100%); }
+#head { position: absolute; left: var(--gutter); right: var(--gutter); top: 12px; pointer-events: none; text-align: center; color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,.7); }
+#head h1 { margin: 0; font-weight: 600; font-size: clamp(1.4rem, 6.2vw, 2.4rem); line-height: 1.1; letter-spacing: -.01em; }
+#head p { margin: 6px 0 0; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+#status { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 10px; color: #fff; font-size: .92rem; line-height: 1.3; text-shadow: 0 1px 10px rgba(0,0,0,.9); pointer-events: none; padding-right: 0; }
+#hint { position: absolute; left: 0; right: 0; top: 84px; text-align: center; color: #fff; font-size: .82rem; pointer-events: none; text-shadow: 0 1px 8px rgba(0,0,0,.8); opacity: .85; transition: opacity .8s; }
+#pip { position: absolute; right: var(--gutter); top: 84px; width: 112px; border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,255,255,.7); background: #000; box-shadow: 0 4px 16px rgba(0,0,0,.5); pointer-events: none; }
+#pip[hidden] { display: none; }
+#pip video { display: block; width: 100%; height: auto; transform: scaleX(-1); }
+#loading { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; background: var(--night); color: var(--night-ink); font-size: .95rem; padding: 1rem; transition: opacity .6s; }
+#loading.done { opacity: 0; pointer-events: none; }
+#nogl { display: none; position: absolute; inset: 0; background: var(--night) center/cover no-repeat url("poster.jpg"); color: #fff; align-items: flex-end; z-index: 2; }
+#nogl p { margin: 0; padding: 1rem var(--gutter); background: rgba(8,12,24,.8); width: 100%; font-size: .95rem; }
+#panel { max-width: var(--max-width); margin: 0 auto; padding: 14px var(--gutter) 4px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.row + .row { margin-top: 10px; }
+button { font-weight: 600; font-size: .95rem; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.primary { flex: 1 1 12rem; min-height: 52px; border: 0; border-radius: 26px; background: var(--accent); color: #fff; padding: 0 22px; font-size: 1.05rem; }
+.primary[aria-pressed=true] { background: var(--ink); }
+.tog { min-height: 48px; border-radius: 24px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); padding: 0 16px; font-size: .9rem; }
+.tog[aria-pressed=true] { background: var(--accent); color: #fff; }
+.tog[hidden] { display: none; }
+.primary:focus-visible, .tog:focus-visible, a:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.privacy { margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--accent); background: rgba(255,255,255,.45); color: var(--ink); font-size: .85rem; line-height: 1.45; border-radius: 0 8px 8px 0; }
+footer { max-width: var(--max-width); margin: 0 auto; padding: 18px var(--gutter) 40px; }
+footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
+.more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.credits { color: var(--muted); font-size: .8rem; line-height: 1.5; margin: 6px 0 0; padding: 0; list-style: none; }
+.credits li { margin: 3px 0; }
+@media (min-width: 900px) { #scene { height: calc(100svh - 200px); } #pip { width: 150px; } }
+@media (prefers-reduced-motion: reduce) { #hint, #loading { transition: none; } }
+</style>
+</head>
+<body>
+<div id="scene" tabindex="0" role="application" aria-label="3D stage with the dancing creature. Drag or use the arrow keys to turn the camera.">
+  <canvas id="gl"></canvas>
+  <div id="shade"></div>
+  <div id="head"><h1>Dance with the creature</h1><p>Frankenstein's creature, a Halloween toy</p></div>
+  <div id="hint">Drag to turn the camera</div>
+  <div id="pip" hidden><video id="cam" playsinline muted></video></div>
+  <div id="status" role="status" aria-live="polite"></div>
+  <div id="nogl"><p>This browser cannot draw the 3D stage (it needs WebGL 2). Try a recent Chrome, Firefox, Edge or Safari.</p></div>
+  <div id="loading"><div>Waking him up…</div></div>
+</div>
+<section id="panel" aria-label="Controls">
+  <div class="row">
+    <button class="primary" id="btnLive" type="button" aria-pressed="false">Dance with him</button>
+    <button class="tog" id="btnMusic" type="button" aria-pressed="false">Music: off</button>
+  </div>
+  <div class="row" role="group" aria-label="Scene">
+    <button class="tog" id="btnMoon" type="button" aria-pressed="true">Moon light</button>
+    <button class="tog" id="btnPumpkin" type="button" aria-pressed="true">Pumpkins</button>
+    <button class="tog" id="btnPip" type="button" aria-pressed="true" hidden>Hide camera picture</button>
+    <button class="tog" id="btnReset" type="button" aria-pressed="false">Reset view</button>
+  </div>
+  <p class="privacy" id="privacy"><strong>Privacy.</strong> The camera picture stays on your device. It is analysed inside this page and is never uploaded, recorded or stored. This page sets no cookies and loads nothing from other sites.</p>
+</section>
+<footer>
+  <h2>More from PierDo</h2>
+  <a class="more" href="../">pierdo.net: small Android apps and web toys</a>
+  <ul class="credits">
+    <li>Dance moves: @cheba_man</li>
+    <li>Music: a beat made for this page with the Web Audio API (132.5 BPM). No recording is used.</li>
+    <li>The creature follows Mary Shelley's 1818 novel, not any film.</li>
+    <li>Made with <a href="vendor/three-LICENSE.txt">three.js</a> (MIT) and <a href="vendor/mediapipe/LICENSE-Apache-2.0.txt">MediaPipe Pose Landmarker</a> (Apache-2.0, Google).</li>
+  </ul>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

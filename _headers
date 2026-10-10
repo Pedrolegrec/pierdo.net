@@ -39,3 +39,6 @@
 
 /whatif/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/frankenstein/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

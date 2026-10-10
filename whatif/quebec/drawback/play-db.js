@@ -58,11 +58,21 @@ const range = $('day'); range.min = '0'; range.max = String(T_END); range.value 
 
 // ---- quality preset (same as the rise scenario) ------------------------------------------------------------------------------------
 const sceneEl = $('scene'), canvas = $('gl'), cssW = () => sceneEl.clientWidth, cssH = () => sceneEl.clientHeight;
-const PHONE = qs.get('q') ? qs.get('q') === 'phone' : (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 900) || cssW() < 600;
+const PHONE0 = qs.get('q') ? qs.get('q') === 'phone' : (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 900) || cssW() < 600;
+// Adaptive quality: on a laptop iGPU (AMD 780M, 1806x869) the desktop preset costs ~35 ms a frame, so Play ran at 20 fps. If a run of live frames is slow, the page
+// reloads once at the next lighter preset (the hash keeps t, language and play state) and remembers it for the session. A fast machine stays on tier 0 (the video look).
+// ?q=desktop|lite|phone forces one preset and turns this off.
+const TIER_KEY = 'wif-db-tier'; let tierStore = null; try { sessionStorage.setItem(TIER_KEY + '-t', '1'); tierStore = sessionStorage; } catch (e) { /* no storage: no adaptation, so no reload loop */ }
+const TIER = PHONE0 ? 2 : qs.get('q') === 'lite' ? 1 : qs.get('q') ? 0 : Math.min(2, Number(tierStore && tierStore.getItem(TIER_KEY)) || 0);
+const ADAPT = !qs.get('q') && !PHONE0 && !!tierStore && TIER < 2 && qs.get('adapt') !== '0';
+const PHONE = TIER === 2;
 const DPR = Number(qs.get('dpr') || devicePixelRatio || 1);
-const PRESET = PHONE
-  ? { name: 'phone', ratio: Math.min(DPR, 1.5) * 0.8, maxPix: 0.75e6, fps: 30, shadow: 2048, refl: 0.35, dscale: 0.35, ao: false, bloom: 0, msaa: 2, lmq: 'low' }
-  : { name: 'desktop', ratio: Math.min(DPR, 2), maxPix: 2.6e6, fps: 60, shadow: 4096, refl: 0.5, dscale: 0.5, ao: true, bloom: 0.28, msaa: 4, lmq: 'high' };
+const PRESETS = [
+  { name: 'desktop', ratio: Math.min(DPR, 2), maxPix: 2.6e6, fps: 60, shadow: 4096, refl: 0.5, dscale: 0.5, ao: true, bloom: 0.28, msaa: 4, lmq: 'high' },
+  { name: 'lite', ratio: Math.min(DPR, 1.25), maxPix: 1.0e6, fps: 60, shadow: 2048, refl: 0.4, dscale: 0.4, ao: true, bloom: 0.28, msaa: 2, lmq: 'high' },
+  { name: 'phone', ratio: Math.min(DPR, 1.5) * 0.8, maxPix: 0.75e6, fps: 30, shadow: 2048, refl: 0.35, dscale: 0.35, ao: false, bloom: 0, msaa: 2, lmq: 'low' }
+];
+const PRESET = PRESETS[TIER];
 let ratio = PRESET.ratio; if (cssW() * cssH() * ratio * ratio > PRESET.maxPix) ratio = Math.sqrt(PRESET.maxPix / (cssW() * cssH()));
 const RW = Math.round(cssW() * ratio), RH = Math.round(cssH() * ratio);
 
@@ -140,8 +150,17 @@ function draw(now) {
   wat.prepare(); post.render(nFrame++);
   if (!window.__ready) { window.__ready = true; $('loading').classList.add('done'); }
 }
+let adaptN = 0; const adaptGaps = [];
+function adapt(gap) {   // gap = ms since the previous visible frame; reload one tier lighter if the median of 40 frames is over 40 ms (under 25 fps)
+  if (!ADAPT) return; gap = Math.min(gap, 200);   // a stall counts as 200 ms; a hidden tab never gets here (frame() returns first)
+  if (++adaptN <= 30) return;   // skip the first frames (shader compile, bed upload)
+  adaptGaps.push(gap); if (adaptGaps.length < 40) return;
+  adaptGaps.sort((x, y) => x - y); const med = adaptGaps[20]; adaptGaps.length = 0;
+  if (med > 40) { try { tierStore.setItem(TIER_KEY, String(TIER + 1)); } catch (err) { return; } save(); location.reload(); }
+}
 function frame(now) {
   requestAnimationFrame(frame); if (document.hidden) { tPrev = now; return; }
+  adapt(now - tPrev);
   const dt = Math.min(0.1, (now - tPrev) / 1000); tPrev = now;
   if (playing) { t = Math.min(T_END, t + dt); range.value = String(t); dirty = true; if (t >= T_END - 1e-3) { playing = false; setText(); save(); } } else idle += dt;
   if (glLost) return; if (now - lastDraw < minDt) return; lastDraw = now;

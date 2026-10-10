@@ -51,6 +51,12 @@ footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
 .store-link { display: inline-block; margin: 6px 0 18px; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .credits { color: var(--muted); font-size: .8rem; line-height: 1.5; margin: 0; padding: 0; list-style: none; }
 .credits li { margin: 3px 0; }
+#choose { display: flex; gap: 8px; margin: 0 0 10px; }
+#choose a { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 44px; padding: 4px 10px; border-radius: 22px; border: 1.5px solid var(--accent); color: var(--accent); font: 600 .88rem/1.15 "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-decoration: none; }
+#choose a[aria-current=page] { background: var(--accent); color: #fff; }
+#choose a:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+#note { color: var(--muted); font-size: .85rem; line-height: 1.5; margin: 12px 0 8px; }
+.credits li.chs { margin-top: 10px; }
 @media (min-width: 900px) { #scene { height: calc(100svh - 170px); } }
 </style>
 </head>
@@ -66,6 +72,7 @@ footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
   <div id="loading"><div id="loadmsg">Loading the map…</div></div>
 </div>
 <section id="panel">
+  <nav id="choose" aria-label="Scenario"><a id="sc-rise" href="./">The sea rises</a><a id="sc-db" href="./?s=drawback">The sea pulls back</a></nav>
   <div class="row">
     <button id="play" type="button"></button>
     <input id="day" type="range" min="0" max="56" step="any" value="0">
@@ -75,6 +82,7 @@ footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
     <button type="button" data-v="terrace" aria-pressed="false"></button>
     <button type="button" data-v="levis" aria-pressed="false"></button>
   </div>
+  <p id="note" hidden></p>
 </section>
 <footer>
   <h2 id="next"></h2>
@@ -82,6 +90,6 @@ footer h2 { font-size: 1.25rem; margin: 0 0 6px; }
   <ul class="credits" id="credits"></ul>
 </footer>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/addons/" } }</script>
-<script type="module" src="./play.js"></script>
+<script type="module" src="./boot.js"></script>
 </body>
 </html>

@@ -3,7 +3,9 @@
   --ink: #201A32;
   --accent: #6334B5;
   --muted: #5F566F;
-  --max-width: 640px;
+  --max-width: 1080px;
+  --text-width: 640px;
+  --panel: #E4D9F8;
   --gap: 2rem;
 }
 
@@ -54,6 +56,7 @@ main {
 .story p {
   font-size: 18px;
   margin: 0;
+  max-width: var(--text-width);
 }
 
 .story a {
@@ -63,9 +66,13 @@ main {
 }
 
 .apps {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
+}
+
+@media (min-width: 760px) {
+  .apps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem; }
 }
 
 .app-card {
@@ -100,6 +107,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: var(--text-width);
 }
 
 .section-label {
@@ -151,6 +159,103 @@ a:focus-visible {
   display: inline-block;
 }
 
+/* Picture cards: one big Play feature graphic per app, name and line under it. */
+.apps .app-card {
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(32,26,50,0.08);
+  border-radius: 20px;
+}
+
+.shot {
+  background: var(--panel);
+  aspect-ratio: 1024 / 500;
+  overflow: hidden;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shot.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shot .panel-icon {
+  width: 112px;
+  height: 112px;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px -10px rgba(32,26,50,.4);
+}
+
+.apps .meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.apps .app-card h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.app-card .tagline {
+  margin: 0.15rem 0 0.5rem;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.app-card .desc { margin: 0 0 1.25rem; }
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+/* Only the Play button is filled. */
+.app-card .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1.25rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+.app-card .btn-play { flex: 1 1 auto; background: var(--accent); color: #fff; }
+.app-card .btn-more { background: transparent; color: var(--accent); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 760px) {
+  .app-card .btn-play { flex: 0 1 auto; }
+}
+
 @media (max-width: 480px) {
   main { padding: 2rem 1.25rem; }
   .app-card { flex-direction: column; }
@@ -195,6 +300,8 @@ a:focus-visible {
     }
     .app-card:hover .icon { transform: scale(1.04) rotate(-2deg); }
     .app-card a:hover .arrow { transform: translateX(4px); }
+    .app-card .btn-play:hover { filter: brightness(1.12); }
+    .app-card .btn-more:hover { background: rgba(99,52,181,.08); }
   }
 
   @keyframes draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }

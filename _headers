@@ -31,6 +31,9 @@
 /hangboard-timer/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
+/cook-clock/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
 /conduit-bend/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 

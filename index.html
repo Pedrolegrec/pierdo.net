@@ -10,10 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Inter+Tight:wght@400;500&family=JetBrains+Mono&display=swap">
   <script>if("IntersectionObserver"in window)document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="style.css?v=20261013">
+  <link rel="stylesheet" href="style.css?v=20261016">
   <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="motion.js" defer></script>
+  <script src="videos.js" defer></script>
 </head>
 <body>
   <main>
@@ -28,10 +29,105 @@
 
     <section class="story">
       <p>I'm Pierre-Dominic Simard. I make small Android apps that each do one thing well, built with AI coding agents. Fifteen are live on Google Play, listed below.</p>
-      <p>New for Halloween: <a href="frankenstein/">dance with Frankenstein's creature</a>.</p>
     </section>
 
-    <section class="apps">
+    <section class="media" id="videos" aria-labelledby="videos-title">
+      <h2 id="videos-title">Videos and games</h2>
+      <p class="lead">What-if simulations, monster dances and a Halloween game, made with AI.</p>
+      <div class="features">
+        <article class="feature">
+          <div class="feature-shot">
+            <img src="cards/frankenstein-game-1024.webp" srcset="cards/frankenstein-game-600.webp 600w, cards/frankenstein-game-1024.webp 1024w"
+                 sizes="(min-width: 760px) 504px, calc(100vw - 2.5rem)" width="1024" height="640" alt="Frankenstein's creature striking a dance pose under the moon" decoding="async">
+          </div>
+          <div class="feature-body">
+            <h3>Dance with Frankenstein's creature</h3>
+            <p>A Halloween game: the creature copies your moves through your camera. Nothing is recorded.</p>
+            <a class="feature-play" href="frankenstein/">Play<span class="sr-only">: Dance with Frankenstein's creature</span></a>
+          </div>
+        </article>
+        <article class="feature">
+          <div class="feature-shot">
+            <img src="cards/whatif-quebec-1024.webp" srcset="cards/whatif-quebec-600.webp 600w, cards/whatif-quebec-1024.webp 1024w"
+                 sizes="(min-width: 760px) 504px, calc(100vw - 2.5rem)" width="1024" height="640" alt="A ferry on the water at the Old Port of Québec City, in a 3D simulation" loading="lazy" decoding="async">
+          </div>
+          <div class="feature-body">
+            <h3>What if the sea rose, or pulled back?</h3>
+            <p>Move the water over Québec City in 3D, on real terrain and riverbed data.</p>
+            <a class="feature-play" href="whatif/quebec/">Play<span class="sr-only">: What if the sea rose, or pulled back?</span></a>
+          </div>
+        </article>
+      </div>
+      <div class="shelf">
+        <figure class="video-card" id="v-werewolf">
+          <video controls playsinline preload="none" poster="videos/media/werewolf.jpg" width="720" height="1280" aria-label="The werewolf learned the dance"><source src="videos/media/werewolf.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>The werewolf learned the dance</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">Dance by @cheba_man (TikTok)</p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-dracula">
+          <video controls playsinline preload="none" poster="videos/media/dracula.jpg" width="720" height="1280" aria-label="Dracula learned the dance"><source src="videos/media/dracula.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>Dracula learned the dance</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">Dance by @cheba_man (TikTok)</p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-frankenstein-3d">
+          <video controls playsinline preload="none" poster="videos/media/frankenstein-3d.jpg" width="720" height="1280" aria-label="Frankenstein's creature hits the dance floor"><source src="videos/media/frankenstein-3d.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>Frankenstein's creature hits the dance floor</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">Book version, 1818. Dance by @cheba_man (TikTok)</p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-creature-ai">
+          <video controls playsinline preload="none" poster="videos/media/creature-ai.jpg" width="720" height="1280" aria-label="Frankenstein's creature learned the dance"><source src="videos/media/creature-ai.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>Frankenstein's creature learned the dance</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">Dance by @cheba_man (TikTok)</p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-old-port">
+          <video controls playsinline preload="none" poster="videos/media/old-port.jpg" width="720" height="1280" aria-label="What if the sea pulled back at Québec's Old Port?"><source src="videos/media/old-port.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>What if the sea pulled back at Québec's Old Port?</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">0 to −30 m, on real terrain and riverbed data. <a href="videos/#chs-notice">Riverbed data notice</a></p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-sea-rises">
+          <video controls playsinline preload="none" poster="videos/media/sea-rises.jpg" width="720" height="1280" aria-label="What if the sea rose one metre a day?"><source src="videos/media/sea-rises.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>What if the sea rose one metre a day?</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+            <p class="credit">Day 56: Québec City.</p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-espresso">
+          <video controls playsinline preload="none" poster="videos/media/espresso.jpg" width="720" height="1280" aria-label="Twenty parts inside an espresso machine, in 3D"><source src="videos/media/espresso.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>Twenty parts inside an espresso machine, in 3D</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+          </figcaption>
+        </figure>
+        <figure class="video-card" id="v-inside-e61">
+          <video controls playsinline preload="none" poster="videos/media/inside-e61.jpg" width="720" height="1280" aria-label="Inside an E61 espresso machine, part by part"><source src="videos/media/inside-e61.mp4" type="video/mp4"></video>
+          <figcaption>
+            <h3>Inside an E61 espresso machine, part by part</h3>
+            <p class="tags"><span class="tag">Made with AI</span><span class="tag">Music made with Suno AI</span></p>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="more"><a href="videos/">All videos and games <span aria-hidden="true">→</span></a></p>
+      <p class="more">More what-ifs on TikTok: <a href="https://www.tiktok.com/@pierdo.net" rel="noopener">@pierdo.net</a></p>
+    </section>
+
+    <section class="apps" id="apps">
+      <h2 class="section-label">Apps</h2>
       <article id="digit-span" class="app-card">
         <div class="shot">
           <img src="cards/digit-span-1024.webp" srcset="cards/digit-span-600.webp 600w, cards/digit-span-1024.webp 1024w"
@@ -263,19 +359,6 @@
           <h3>Espresso extraction yield calculator</h3>
           <p>Extraction yield and brew ratio from dose, beverage weight and TDS. Runs in your browser.</p>
           <a href="espresso-extraction-yield-calculator/">Open the calculator <span class="arrow" aria-hidden="true">→</span></a>
-        </div>
-      </article>
-    </section>
-
-    <section class="tools" aria-labelledby="whatif-title">
-      <h2 id="whatif-title" class="section-label">What if…</h2>
-      <article id="whatif-quebec" class="app-card">
-        <div class="icon tool-icon" aria-hidden="true">🌊</div>
-        <div class="meta">
-          <h3>What if the sea rose, or pulled back?</h3>
-          <p>Two 3D what-ifs for Québec City: the sea rises a metre a day, or pulls back from the Old Port. Drag the time and look around. Runs in your browser.</p>
-          <a href="whatif/quebec/">Play it <span class="arrow" aria-hidden="true">→</span></a>
-          <p>More what-ifs on TikTok: <a href="https://www.tiktok.com/@pierdo.net" rel="noopener">@pierdo.net</a></p>
         </div>
       </article>
     </section>

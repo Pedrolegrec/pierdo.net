@@ -54,3 +54,6 @@
 
 /frankenstein/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/videos/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

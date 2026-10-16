@@ -75,6 +75,8 @@ main {
   .apps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem; }
 }
 
+.apps > .section-label { grid-column: 1 / -1; }
+
 .app-card {
   display: flex;
   gap: 1.25rem;
@@ -412,6 +414,7 @@ a:focus-visible {
 .video-grid {
   display: grid;
   gap: 1rem;
+  align-items: start;
 }
 
 /* Phone and tablet: one row that scrolls sideways and bleeds to the screen edge. */

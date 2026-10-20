@@ -43,6 +43,9 @@
 /kitchen-table/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
+/bench-price/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
 /holding-pattern/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
